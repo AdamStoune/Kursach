@@ -1,0 +1,100 @@
+unit Unit9;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Imaging.jpeg;
+
+type
+  TForm9 = class(TForm)
+    ImagePicture: TImage;
+    MemoText: TMemo;
+    ButtonNext: TButton;
+    ButtonRestart: TButton;
+    Image1: TImage;
+    procedure FormCreate(Sender: TObject);
+    procedure ButtonNextClick(Sender: TObject);
+    procedure ButtonRestartClick(Sender: TObject);
+    procedure Image1Click(Sender: TObject);
+  private
+    FTextList: TStringList;
+    FCurrentIndex: Integer;
+  public
+    procedure LoadTextFile(const FileName: string);
+    procedure ShowTextAndPicture(Index: Integer);
+    procedure ResetToBeginning;
+  end;
+
+var
+  Form9: TForm9;
+
+implementation
+
+{$R *.dfm}
+
+uses Unit2, Unit13;
+
+procedure TForm9.FormCreate(Sender: TObject);
+begin
+  FTextList := TStringList.Create;
+  FCurrentIndex := 0;
+  LoadTextFile(ExtractFilePath(ParamStr(0)) +'predupr.txt');
+  ShowTextAndPicture(FCurrentIndex);
+end;
+
+procedure TForm9.Image1Click(Sender: TObject);
+begin
+Form11.Hide;
+Form13.Show;
+end;
+
+procedure TForm9.LoadTextFile(const FileName: string);
+begin
+  FTextList.LoadFromFile(FileName);
+  FTextList.Text := UTF8ToString(FTextList.Text); // Преобразование текста в UTF-8 в строку Delphi
+end;
+
+procedure TForm9.ShowTextAndPicture(Index: Integer);
+var
+  TextLine, ImagePath: string;
+begin
+  if (Index >= 0) and (Index < FTextList.Count) then
+  begin
+    TextLine := FTextList[Index];
+    ImagePath := ExtractFilePath(ParamStr(0)) + Trim(Copy(TextLine, Pos('|', TextLine) + 1, Length(TextLine)));
+    TextLine := Trim(Copy(TextLine, 1, Pos('|', TextLine) - 1));
+
+    MemoText.Lines.Text := TextLine;
+    ImagePicture.Picture.LoadFromFile(ImagePath);
+  end
+  else
+  begin
+    MemoText.Clear;
+    ImagePicture.Picture := nil;
+  end;
+end;
+
+procedure TForm9.ButtonNextClick(Sender: TObject);
+begin
+  Inc(FCurrentIndex);
+  if FCurrentIndex >= FTextList.Count then
+    FCurrentIndex := 0;
+  ShowTextAndPicture(FCurrentIndex);
+end;
+
+procedure TForm9.ButtonRestartClick(Sender: TObject);
+begin
+Form11.Hide;
+Form2.Show;
+  ResetToBeginning;
+end;
+
+procedure TForm9.ResetToBeginning;
+begin
+  FCurrentIndex := 0;
+  ShowTextAndPicture(FCurrentIndex);
+end;
+
+end.

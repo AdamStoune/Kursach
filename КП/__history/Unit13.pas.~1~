@@ -1,0 +1,59 @@
+unit Unit13;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls;
+
+type
+  TForm13 = class(TForm)
+    Image1: TImage;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form13: TForm13;
+
+implementation
+
+{$R *.dfm}
+
+uses Unit9, Unit10, Unit11, Unit12;
+
+procedure TForm13.Button1Click(Sender: TObject);
+begin
+Form13.Hide;
+Form9.Show;
+end;
+
+procedure TForm13.Button2Click(Sender: TObject);
+begin
+Form13.Hide;
+Form10.Show;
+end;
+
+procedure TForm13.Button3Click(Sender: TObject);
+begin
+Form13.Hide;
+Form11.Show;
+end;
+
+procedure TForm13.Button4Click(Sender: TObject);
+begin
+Form13.Hide;
+Form12.Show;
+end;
+
+end.

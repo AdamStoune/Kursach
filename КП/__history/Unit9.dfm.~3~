@@ -1,0 +1,38 @@
+object Form9: TForm9
+  Left = 406
+  Top = 0
+  Caption = 'Form9'
+  ClientHeight = 469
+  ClientWidth = 808
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Position = poDesigned
+  TextHeight = 15
+  object Image1: TImage
+    Left = 352
+    Top = 89
+    Width = 105
+    Height = 105
+  end
+  object NextButton: TButton
+    Left = 264
+    Top = 328
+    Width = 209
+    Height = 57
+    Caption = 'NextButton'
+    TabOrder = 0
+  end
+  object Memo1: TMemo
+    Left = 160
+    Top = 200
+    Width = 457
+    Height = 122
+    Lines.Strings = (
+      'Memo1')
+    TabOrder = 1
+  end
+end

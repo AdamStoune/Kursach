@@ -1,0 +1,130 @@
+unit Unit9;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls;
+
+type
+  TForm9 = class(TForm)
+    Image1: TImage;
+    Image2: TImage;
+    Image3: TImage;
+    ButtonNext: TButton;
+    LabelQuestion: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure Image1Click(Sender: TObject);
+    procedure Image2Click(Sender: TObject);
+    procedure Image3Click(Sender: TObject);
+    procedure ButtonNextClick(Sender: TObject);
+  private
+    { Private declarations }
+    QuestIndex: Integer;
+    QuestData: TStringList;
+    procedure LoadQuestion;
+    procedure ShowQuestion;
+    procedure ProcessAnswer(AnswerIndex: Integer);
+    procedure NextQuestion;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form9: TForm9;
+
+implementation
+
+{$R *.dfm}
+
+const
+  QuestFile = 'quest.txt';
+  Delimiter = '|';
+
+procedure TForm9.FormCreate(Sender: TObject);
+begin
+  QuestIndex := 0;
+  QuestData := TStringList.Create;
+  QuestData.LoadFromFile(QuestFile);
+  LoadQuestion;
+  ShowQuestion;
+end;
+
+procedure TForm9.LoadQuestion;
+var
+  ImageFile: string;
+begin
+  ImageFile := ExtractFilePath(Application.ExeName) + QuestData.ValueFromIndex[QuestIndex];
+  if FileExists(ImageFile) then
+    Image1.Picture.LoadFromFile(ImageFile);
+
+  ImageFile := ExtractFilePath(Application.ExeName) + QuestData.ValueFromIndex[QuestIndex + 1];
+  if FileExists(ImageFile) then
+    Image2.Picture.LoadFromFile(ImageFile);
+
+  ImageFile := ExtractFilePath(Application.ExeName) + QuestData.ValueFromIndex[QuestIndex + 2];
+  if FileExists(ImageFile) then
+    Image3.Picture.LoadFromFile(ImageFile);
+end;
+
+procedure TForm9.ShowQuestion;
+begin
+  if QuestIndex >= QuestData.Count - 2 then
+  begin
+    ShowMessage('Квест завершен!');
+    Close;
+    Exit;
+  end;
+
+  LabelQuestion.Caption := QuestData.Names[QuestIndex];
+  Image1.Enabled := True;
+  Image2.Enabled := True;
+  Image3.Enabled := True;
+  ButtonNext.Enabled := False;
+end;
+
+procedure TForm9.ProcessAnswer(AnswerIndex: Integer);
+var
+  CorrectAnswer: Integer;
+begin
+  Image1.Enabled := False;
+  Image2.Enabled := False;
+  Image3.Enabled := False;
+
+  CorrectAnswer := StrToInt(QuestData.ValueFromIndex[QuestIndex + 3]);
+  if AnswerIndex = CorrectAnswer then
+    ShowMessage('Правильный ответ!')
+  else
+    ShowMessage('Неправильный ответ!');
+
+  ButtonNext.Enabled := True;
+end;
+
+procedure TForm9.NextQuestion;
+begin
+  Inc(QuestIndex, 4);
+  LoadQuestion;
+  ShowQuestion;
+end;
+
+procedure TForm9.Image1Click(Sender: TObject);
+begin
+  ProcessAnswer(1);
+end;
+
+procedure TForm9.Image2Click(Sender: TObject);
+begin
+  ProcessAnswer(2);
+end;
+
+procedure TForm9.Image3Click(Sender: TObject);
+begin
+  ProcessAnswer(3);
+end;
+
+procedure TForm9.ButtonNextClick(Sender: TObject);
+begin
+  NextQuestion;
+end;
+
+end.

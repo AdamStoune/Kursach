@@ -1,0 +1,53 @@
+object Form14: TForm14
+  Left = 0
+  Top = 0
+  Caption = 'Form14'
+  ClientHeight = 442
+  ClientWidth = 628
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  OnCreate = FormCreate
+  TextHeight = 15
+  object ImageQuestion: TImage
+    Left = 208
+    Top = 8
+    Width = 200
+    Height = 200
+    Align = alCustom
+    Stretch = True
+  end
+  object LabelQuestion: TLabel
+    Left = 147
+    Top = 214
+    Width = 3
+    Height = 15
+  end
+  object LabelResult: TLabel
+    Left = 152
+    Top = 263
+    Width = 3
+    Height = 15
+  end
+  object ButtonYes: TButton
+    Left = 352
+    Top = 328
+    Width = 209
+    Height = 81
+    Caption = #1044#1072
+    TabOrder = 0
+    OnClick = ButtonYesClick
+  end
+  object ButtonNo: TButton
+    Left = 56
+    Top = 328
+    Width = 209
+    Height = 81
+    Caption = #1053#1077#1090
+    TabOrder = 1
+    OnClick = ButtonNoClick
+  end
+end

@@ -1,0 +1,109 @@
+unit Unit9;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls;
+
+type
+  TForm9 = class(TForm)
+    Image1: TImage;
+    NextButton: TButton;
+    Memo1: TMemo;
+    procedure FormCreate(Sender: TObject);
+    procedure NextButtonClick(Sender: TObject);
+  private
+    InfoFilePath: string;
+    ImagePath: string;
+    procedure LoadInfoFile;
+    procedure SaveInfoFile;
+    procedure LoadImage;
+    procedure LoadNextInformation;
+  end;
+
+var
+  Form9: TForm9;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm9.FormCreate(Sender: TObject);
+begin
+  // Путь к файлу информации
+  InfoFilePath := 'info.txt';
+
+  LoadInfoFile;
+  LoadImage;
+end;
+
+procedure TForm9.LoadInfoFile;
+var
+  InfoFile: TStringList;
+begin
+  // Загрузка информации из файла
+  InfoFile := TStringList.Create;
+  try
+    if FileExists(InfoFilePath) then
+      InfoFile.LoadFromFile(InfoFilePath);
+    // Очистка Memo1 перед загрузкой новой информации
+    Memo1.Clear;
+    // Проверка на наличие достаточного количества строк в файле
+    if InfoFile.Count >= 2 then
+    begin
+      // Загрузка пути к изображению (вторая строка в файле)
+      ImagePath := InfoFile[1];
+      // Добавление первой строки файла в Memo1 (информация)
+      Memo1.Lines.Add(InfoFile[0]);
+    end;
+  finally
+    InfoFile.Free;
+  end;
+end;
+
+procedure TForm9.SaveInfoFile;
+var
+  InfoFile: TStringList;
+begin
+  // Сохранение информации и пути к изображению в файл
+  InfoFile := TStringList.Create;
+  try
+    // Добавление информации в первую строку
+    InfoFile.Add(Memo1.Lines[0]);
+    // Добавление пути к изображению во вторую строку
+    InfoFile.Add(ImagePath);
+    // Сохранение информации в файл
+    InfoFile.SaveToFile(InfoFilePath);
+  finally
+    InfoFile.Free;
+  end;
+end;
+
+procedure TForm9.LoadImage;
+begin
+  // Загрузка изображения по указанному пути
+  if FileExists(ImagePath) then
+    Image1.Picture.LoadFromFile(ImagePath);
+end;
+
+procedure TForm9.NextButtonClick(Sender: TObject);
+begin
+  LoadNextInformation;
+  LoadImage;
+  SaveInfoFile;
+  LoadInfoFile; // Загрузка и отображение новой информации
+end;
+
+procedure TForm9.LoadNextInformation;
+begin
+  // Здесь можно выполнить необходимые действия для загрузки новой информации
+  // и установить новый путь к изображению в переменную ImagePath
+
+  // Пример: перейти к следующей информации и изображению
+  Memo1.Lines.Clear;
+  Memo1.Lines.Add('Новая информация');
+  ImagePath := 'приоритета\1.jpg';
+end;
+
+end.

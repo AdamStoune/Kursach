@@ -1,0 +1,36 @@
+program Project1;
+
+uses
+  Vcl.Forms,
+  Zastavka in 'Zastavka.pas' {Form1},
+  Main in 'Main.pas' {Form2},
+  TestZapr in 'TestZapr.pas' {Form3},
+  TestPrior in 'TestPrior.pas' {Form4},
+  TestPredupr in 'TestPredupr.pas' {Form5},
+  TestPredpis in 'TestPredpis.pas' {Form6},
+  InfoZapr in 'InfoZapr.pas' {Form7},
+  InfoPrior in 'InfoPrior.pas' {Form8},
+  InfoPredupr in 'InfoPredupr.pas' {Form9},
+  InfoPredpis in 'InfoPredpis.pas' {Form10},
+  InfoKategor in 'InfoKategor.pas' {Form11},
+  Quest in 'Quest.pas' {Form12};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TForm2, Form2);
+  Application.CreateForm(TForm3, Form3);
+  Application.CreateForm(TForm4, Form4);
+  Application.CreateForm(TForm5, Form5);
+  Application.CreateForm(TForm6, Form6);
+  Application.CreateForm(TForm7, Form7);
+  Application.CreateForm(TForm8, Form8);
+  Application.CreateForm(TForm9, Form9);
+  Application.CreateForm(TForm10, Form10);
+  Application.CreateForm(TForm11, Form11);
+  Application.CreateForm(TForm12, Form12);
+  Application.Run;
+end.

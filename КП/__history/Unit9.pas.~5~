@@ -1,0 +1,75 @@
+unit Unit9;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Imaging.jpeg;
+
+type
+  TForm9 = class(TForm)
+    MemoText: TMemo;
+    ImagePicture: TImage;
+    ButtonNext: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure ButtonNextClick(Sender: TObject);
+  private
+    FTextList: TStringList;
+    FCurrentIndex: Integer;
+  public
+    procedure LoadTextFile(const FileName: string);
+    procedure ShowTextAndPicture(Index: Integer);
+  end;
+
+var
+  Form9: TForm9;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm9.FormCreate(Sender: TObject);
+begin
+  FTextList := TStringList.Create;
+  FCurrentIndex := 0;
+  LoadTextFile(ExtractFilePath(ParamStr(0)) +'info.txt'); // «амените 'TextFile.txt' на путь к вашему текстовому файлу
+  ShowTextAndPicture(FCurrentIndex);
+end;
+
+procedure TForm9.LoadTextFile(const FileName: string);
+begin
+  FTextList.LoadFromFile(FileName);
+end;
+
+procedure TForm9.ShowTextAndPicture(Index: Integer);
+var
+  TextLine, ImagePath: string;
+begin
+  if (Index >= 0) and (Index < FTextList.Count) then
+  begin
+    TextLine := FTextList[Index];
+    // –азделите путь к картинке и текст, использу€ какой-либо разделитель.
+    // Ќапример, если ваш текстовый файл имеет формат "текст | путь_к_картинке",
+    // вы можете использовать следующую логику дл€ извлечени€ пути к картинке:
+    ImagePath := Trim(Copy(TextLine, Pos('|', TextLine) + 1, Length(TextLine)));
+    TextLine := Trim(Copy(TextLine, 1, Pos('|', TextLine) - 1));
+
+    MemoText.Lines.Text := TextLine;
+    ImagePicture.Picture.LoadFromFile(ImagePath);
+  end
+  else
+  begin
+    MemoText.Clear;
+    ImagePicture.Picture := nil;
+  end;
+end;
+
+procedure TForm9.ButtonNextClick(Sender: TObject);
+begin
+  Inc(FCurrentIndex);
+  if FCurrentIndex >= FTextList.Count then
+    FCurrentIndex := 0;
+  ShowTextAndPicture(FCurrentIndex);
+end;
+
+end.
